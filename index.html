@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="WooBi is a considered fashion studio with an interactive Colour Coordination Assistant. Find your shade, see its palette, and discover three ready-to-wear outfits.">
+  <meta name="theme-color" content="#F6F1E8">
+  <title>WooBi — Colour, considered.</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23F6F1E8'/%3E%3Ctext x='30' y='45' font-family='Georgia,serif' font-size='38' text-anchor='middle' fill='%23241F1B'%3Ew%3C/text%3E%3Ccircle cx='49' cy='43' r='3.5' fill='%23C4633F'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Shared icon + garment library -->
+  <svg class="svg-sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-search" viewBox="0 0 24 24">
+        <circle cx="10.8" cy="10.8" r="6.3" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M15.5 15.5 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="i-bag" viewBox="0 0 24 24">
+        <path d="M5.2 8.5h13.6L17.6 21H6.4L5.2 8.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M9 8.5V6.8a3 3 0 0 1 6 0v1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24">
+        <path d="M4 12h15M13.5 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="i-close" viewBox="0 0 24 24">
+        <path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24">
+        <path d="M4 8h16M4 16h16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="i-heart" viewBox="0 0 24 24">
+        <path d="M12 20.2S4.8 15.7 4.8 10.2A4.2 4.2 0 0 1 12 7.4a4.2 4.2 0 0 1 7.2 2.8c0 5.5-7.2 10-7.2 10Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24">
+        <rect x="8" y="8" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24">
+        <path d="m5 12.5 4.4 4.3L19 6.8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24">
+        <path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24">
+        <path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="i-spark" viewBox="0 0 24 24">
+        <path d="M12 2.5c.6 5.9 3.6 8.9 9.5 9.5-5.9.6-8.9 3.6-9.5 9.5-.6-5.9-3.6-8.9-9.5-9.5 5.9-.6 8.9-3.6 9.5-9.5Z" fill="currentColor"/>
+      </symbol>
+      <symbol id="i-heart-fill" viewBox="0 0 24 24">
+        <path d="M12 20.2S4.8 15.7 4.8 10.2A4.2 4.2 0 0 1 12 7.4a4.2 4.2 0 0 1 7.2 2.8c0 5.5-7.2 10-7.2 10Z" fill="currentColor"/>
+      </symbol>
+
+      <!-- Garment silhouettes, drawn in a 200 x 240 box -->
+      <symbol id="g-dress" viewBox="0 0 200 240">
+        <path d="M72 27c10-6 46-6 56 0l14 25-10 10-8-8v46l-24 12-24-12V54l-8 8-10-10 14-25Z" fill="var(--garment)" stroke="var(--line)" stroke-width="1.4" stroke-linejoin="round"/>
+        <path d="M76 100h48l32 118c-28 10-84 10-112 0l32-118Z" fill="var(--garment)" stroke="var(--line)" stroke-width="1.4" stroke-linejoin="round"/>
+        <path d="M86 26 100 50l14-24" fill="none" stroke="var(--detail)" stroke-width="1.4" stroke-linejoin="round"/>
+        <path d="M76 100h48M100 112v102M84 110c-6 42-10 72-14 108M116 110c6 42 10 72 14 108" fill="none" stroke="var(--detail)" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M88 28 120 98" fill="none" stroke="var(--detail)" stroke-width="1.2"/>
+      </symbol>
+      <symbol id="g-blazer" viewBox="0 0 200 240">
+        <path d="M64 40 86 32l14 7 14-7 22 8 18 26 8 82-16 6-10-56 4 110c-20 8-60 8-80 0l4-110-10 56-16-6 8-82 18-26Z" fill="var(--garment)" stroke="var(--line)" stroke-width="1.4" stroke-linejoin="round"/>
+        <path d="M86 32 100 43l14-11-6 42-8 26-8-26-6-42Z" fill="var(--detail-fill)" stroke="var(--line)" stroke-width="1.2" stroke-linejoin="round"/>
+        <path d="M100 43v165" fill="none" stroke="var(--detail)" stroke-width="1.2"/>
+        <path d="M72 150h20M108 150h20" fill="none" stroke="var(--detail)" stroke-width="1.3" stroke-linecap="round"/>
+        <circle cx="100" cy="131" r="2.1" fill="var(--detail)"/>
+        <circle cx="100" cy="153" r="2.1" fill="var(--detail)"/>
+      </symbol>
+      <symbol id="g-trousers" viewBox="0 0 200 240">
+        <path d="M66 28h68l-4 36 18 148h-42l-6-110-6 110H52l18-148-4-36Z" fill="var(--garment)" stroke="var(--line)" stroke-width="1.4" stroke-linejoin="round"/>
+        <path d="M66 40h68M100 64v38M82 82 72 208M118 82l10 126" fill="none" stroke="var(--detail)" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M76 72h8M116 72h8" fill="none" stroke="var(--detail)" stroke-width="1.3" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="g-knit" viewBox="0 0 200 240">
+        <path d="M66 45c14-11 54-11 68 0l24 25-12 22-10-10 4 120c-20 8-60 8-80 0l4-120-10 10-12-22 24-25Z" fill="var(--garment)" stroke="var(--line)" stroke-width="1.4" stroke-linejoin="round"/>
+        <path d="M80 42c8 16 32 16 40 0" fill="none" stroke="var(--detail)" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M60 196c20 6 60 6 80 0M64 84v106M136 84v106" fill="none" stroke="var(--detail)" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M84 50v8M92 52v7M108 52v7M116 50v8" fill="none" stroke="var(--detail)" stroke-width="1.1" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="g-tote" viewBox="0 0 200 240">
+        <path d="M54 82h92l-8 118H62L54 82Z" fill="var(--garment)" stroke="var(--line)" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M78 84c0-40 44-40 44 0" fill="none" stroke="var(--garment)" stroke-width="7" stroke-linecap="round"/>
+        <path d="M78 84c0-40 44-40 44 0" fill="none" stroke="var(--line)" stroke-width="1.3" stroke-linecap="round"/>
+        <path d="M54 96h92M70 96v104M130 96v104" fill="none" stroke="var(--detail)" stroke-width="1.2"/>
+      </symbol>
+      <symbol id="g-loafer" viewBox="0 0 200 240">
+        <path d="M34 160c10-20 32-28 54-24l32 12 34 10c18 5 22 24 10 34H46c-16-4-20-20-12-32Z" fill="var(--garment)" stroke="var(--line)" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M84 136c12 12 34 20 56 22" fill="none" stroke="var(--detail)" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M34 184h134" fill="none" stroke="var(--detail)" stroke-width="3" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="g-sneaker" viewBox="0 0 200 240">
+        <path d="M30 152c18-14 42-20 62-14l24 18 34 8c18 4 24 18 18 28H44c-16-6-22-26-14-40Z" fill="var(--garment)" stroke="var(--line)" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M66 144l16 12M78 140l16 12M90 138l16 12" fill="none" stroke="var(--detail)" stroke-width="1.3" stroke-linecap="round"/>
+        <path d="M30 188h142" fill="none" stroke="var(--detail)" stroke-width="3" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="g-scarf" viewBox="0 0 200 240">
+        <path d="m50 58 92-10 18 84-92 18-18-92Z" fill="var(--garment)" stroke="var(--line)" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M50 58 105 96 68 150M142 48l-37 48 37 36" fill="none" stroke="var(--detail)" stroke-width="1.3" stroke-linejoin="round"/>
+        <path d="M150 70l10-1M154 84l10-1M158 98l10-1M128 140l2 10M114 144l2 10M100 148l2 10" fill="none" stroke="var(--detail)" stroke-width="1.2" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="g-coat" viewBox="0 0 200 240">
+        <path d="M64 34 88 26l12 11 12-11 24 8 18 32-12 14-8-10 4 144H62l4-144-8 10-12-14 18-32Z" fill="var(--garment)" stroke="var(--line)" stroke-width="1.4" stroke-linejoin="round"/>
+        <path d="M86 26l14 26 14-26M100 52v162M74 126h52M100 126l-4 88M100 126l4 88" fill="none" stroke="var(--detail)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="108" cy="94" r="2" fill="var(--detail)"/>
+        <circle cx="108" cy="112" r="2" fill="var(--detail)"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div class="announcement">
+    <p>Complimentary shipping over $150 <span aria-hidden="true">·</span> <a href="#colour-studio">Meet the Colour Studio <span aria-hidden="true">→</span></a></p>
+  </div>
+
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner container">
+      <button class="icon-button menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="menuDrawer">
+        <svg aria-hidden="true"><use href="#i-menu"></use></svg>
+      </button>
+
+      <a class="logo" href="#top" aria-label="WooBi home">
+        <span class="logo__word">woobi</span><span class="logo__dot" aria-hidden="true">.</span>
+      </a>
+
+      <nav class="main-nav" aria-label="Primary">
+        <a href="#edit">Shop</a>
+        <a href="#colour-studio" class="is-active">Colour Studio</a>
+        <a href="#outfits">Outfits</a>
+        <a href="#journal">Journal</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-button" id="searchToggle" aria-label="Search WooBi">
+          <svg aria-hidden="true"><use href="#i-search"></use></svg>
+        </button>
+        <button class="icon-button bag-button" id="bagToggle" aria-label="Open shopping bag">
+          <svg aria-hidden="true"><use href="#i-bag"></use></svg>
+          <span class="bag-count" id="bagCount" aria-live="polite">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero__wash" aria-hidden="true"></div>
+      <div class="hero-inner container">
+        <div class="hero-copy">
+          <p class="eyebrow eyebrow--line"><span>WooBi / The autumn edit 2026</span></p>
+          <h1>Dress in <em>colour,</em><br>not in doubt.</h1>
+          <p class="hero-lede">Considered clothing, paired with a colour assistant that turns “what goes with this?” into a palette — and three ready-to-wear answers.</p>
+          <div class="hero-actions">
+            <a class="button button--primary" href="#colour-studio">Find your palette
+              <svg aria-hidden="true"><use href="#i-arrow"></use></svg>
+            </a>
+            <a class="text-link" href="#edit">Shop the new edit</a>
+          </div>
+          <div class="hero-meta" aria-label="WooBi in numbers">
+            <div><strong>16</strong><span>curated shades</span></div>
+            <div><strong>03</strong><span>outfit formulas</span></div>
+            <div><strong>∞</strong><span>ways to wear</span></div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="colour-wheel" id="colourWheel">
+            <div class="colour-wheel__glow" aria-hidden="true"></div>
+            <svg class="colour-wheel__type" viewBox="0 0 480 480" aria-hidden="true">
+              <defs>
+                <path id="wheelTextPath" d="M240,240 m-226,0 a226,226 0 1,1 452,0 a226,226 0 1,1 -452,0"></path>
+              </defs>
+              <text>
+                <textPath href="#wheelTextPath" startOffset="0">WOOBI COLOUR STUDIO · SIXTEEN SHADES · FIND YOUR PAIR ·&nbsp;</textPath>
+              </text>
+            </svg>
+            <div class="wheel-dots" id="wheelDots" role="group" aria-label="Choose a colour"></div>
+            <button class="wheel-center" id="wheelCenter" aria-label="Selected colour: Terracotta. Open the Colour Studio.">
+              <span class="wheel-center__eyebrow">Your shade</span>
+              <svg class="wheel-center__art" viewBox="0 0 200 240" aria-hidden="true">
+                <path d="M72 27c10-6 46-6 56 0l14 25-10 10-8-8v46l-24 12-24-12V54l-8 8-10-10 14-25Z" fill="currentColor" stroke="currentColor" stroke-opacity=".22" stroke-width="1.4" stroke-linejoin="round"/>
+                <path d="M76 100h48l32 118c-28 10-84 10-112 0l32-118Z" fill="currentColor" stroke="currentColor" stroke-opacity=".22" stroke-width="1.4" stroke-linejoin="round"/>
+                <path d="M86 26 100 50l14-24M76 100h48M100 112v102M84 110c-6 42-10 72-14 108M116 110c6 42 10 72 14 108M88 28 120 98" fill="none" stroke="currentColor" stroke-opacity=".3" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="wheel-center__name" id="wheelName">Terracotta</span>
+              <span class="wheel-center__hex" id="wheelHex">#C4633F</span>
+            </button>
+          </div>
+          <p class="wheel-caption"><span aria-hidden="true">✦</span> Tap a shade. We’ll do the matching. <span aria-hidden="true">✦</span></p>
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <div class="marquee__group">
+          <span>Colour, considered</span><i>✦</i><span>Made to mix</span><i>✦</i><span>The autumn edit</span><i>✦</i><span>16 curated shades</span><i>✦</i>
+        </div>
+        <div class="marquee__group">
+          <span>Colour, considered</span><i>✦</i><span>Made to mix</span><i>✦</i><span>The autumn edit</span><i>✦</i><span>16 curated shades</span><i>✦</i>
+        </div>
+      </div>
+    </div>
+
+    <section class="studio-section" id="colour-studio">
+      <div class="container">
+        <header class="section-head">
+          <div class="section-head__title">
+            <p class="eyebrow eyebrow--line"><span>02 — Colour Coordination Assistant</span></p>
+            <h2>Your colour,<br><em>coordinated.</em></h2>
+          </div>
+          <div class="section-head__intro">
+            <p>Choose a shade and WooBi builds a wearable colour story around it — complementary, analogous and grounding tones, with outfits to match.</p>
+            <span class="micro-note"><svg aria-hidden="true"><use href="#i-spark"></use></svg> No account. No guesswork.</span>
+          </div>
+        </header>
+
+        <div class="studio-shell">
+          <div class="studio-selector">
+            <div class="studio-panel-head">
+              <span class="step-badge">01</span>
+              <h3>Choose your colour</h3>
+              <p>16 shades</p>
+            </div>
+
+            <div class="current-colour">
+              <span class="current-colour__chip" aria-hidden="true"></span>
+              <div class="current-colour__copy">
+                <span class="current-colour__label">Currently selected</span>
+                <span class="current-colour__name" id="currentName" aria-live="polite">Terracotta</span>
+                <span class="current-colour__hex" id="currentHex">#C4633F</span>
+              </div>
+              <button class="icon-button icon-button--small" id="copyHex" aria-label="Copy selected colour code">
+                <svg aria-hidden="true"><use href="#i-copy"></use></svg>
+              </button>
+            </div>
+
+            <div class="swatch-grid" id="swatchGrid" role="group" aria-label="Curated WooBi colours"></div>
+
+            <div class="custom-colour">
+              <div>
+                <span class="custom-colour__title">Mix your own</span>
+                <span class="custom-colour__sub">Pick any shade from the colour spectrum</span>
+              </div>
+              <label class="colour-input" aria-label="Choose a custom colour">
+                <input type="color" id="customColour" value="#c4633f">
+                <span class="colour-input__ring" aria-hidden="true"></span>
+                <svg aria-hidden="true"><use href="#i-plus"></use></svg>
+              </label>
+            </div>
+          </div>
+
+          <div class="studio-palette">
+            <div class="studio-panel-head">
+              <span class="step-badge">02</span>
+              <h3>Your coordinating palette</h3>
+              <p class="palette-head__hint">Tap a chip to explore</p>
+            </div>
+            <div class="palette-grid" id="paletteGrid"></div>
+
+            <div class="palette-note">
+              <span class="palette-note__icon" aria-hidden="true"><svg><use href="#i-spark"></use></svg></span>
+              <div>
+                <span class="palette-note__label">Why it works</span>
+                <p id="paletteNote" aria-live="polite"></p>
+              </div>
+              <button class="button button--outline button--small" id="copyPalette">
+                <svg aria-hidden="true"><use href="#i-copy"></use></svg> Copy palette
+              </button>
+            </div>
+
+            <div class="ratio-block">
+              <div class="ratio-block__head">
+                <span>The 60—30—10 rule</span>
+                <span>Balance, not match</span>
+              </div>
+              <div class="ratio-bar" aria-hidden="true">
+                <span class="ratio-bar__segment ratio-bar__segment--60" id="ratio60"></span>
+                <span class="ratio-bar__segment ratio-bar__segment--30" id="ratio30"></span>
+                <span class="ratio-bar__segment ratio-bar__segment--10" id="ratio10"></span>
+              </div>
+              <p class="ratio-block__copy" id="ratioCopy"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="outfits-head" id="outfits">
+          <div>
+            <p class="eyebrow eyebrow--line"><span>03 — Ready to wear</span></p>
+            <h3>Styled around <em id="outfitColourName">Terracotta</em>.</h3>
+          </div>
+          <p>Three outfit formulas using your palette — swap the shade above and every look follows.</p>
+        </div>
+        <div class="outfit-grid" id="outfitGrid"></div>
+      </div>
+    </section>
+
+    <section class="edit-section" id="edit">
+      <div class="container">
+        <header class="edit-head">
+          <div>
+            <p class="eyebrow eyebrow--line"><span>04 — The edit</span></p>
+            <h2>Pieces made <em>to mix.</em></h2>
+          </div>
+          <p>Quiet staples in a considered palette. Wear them together, or let the Colour Studio find the pairings for you.</p>
+        </header>
+        <div class="product-grid" id="productGrid"></div>
+      </div>
+    </section>
+
+    <section class="journal-section" id="journal">
+      <div class="container">
+        <header class="section-head section-head--compact">
+          <div class="section-head__title">
+            <p class="eyebrow eyebrow--line"><span>05 — Journal</span></p>
+            <h2>Notes on <em>wearing colour.</em></h2>
+          </div>
+          <a class="text-link text-link--arrow" href="#journal">Read the journal <svg aria-hidden="true"><use href="#i-arrow"></use></svg></a>
+        </header>
+        <div class="journal-grid">
+          <article class="journal-feature">
+            <div class="journal-feature__art" aria-hidden="true">
+              <span class="journal-orb journal-orb--1"></span>
+              <span class="journal-orb journal-orb--2"></span>
+              <span class="journal-orb journal-orb--3"></span>
+              <span class="journal-orb journal-orb--4"></span>
+            </div>
+            <div class="journal-feature__copy">
+              <span class="journal-kicker">Colour notes · 4 min read</span>
+              <h3>Plum, with a little room to breathe.</h3>
+              <p>Why the richest shades feel easiest when you give them a quiet neutral to land on.</p>
+              <span class="text-link text-link--arrow">Read the note <svg aria-hidden="true"><use href="#i-arrow"></use></svg></span>
+            </div>
+          </article>
+          <div class="journal-side">
+            <article class="journal-card journal-card--cream">
+              <span class="journal-kicker">The WooBi rule · 3 min read</span>
+              <blockquote>“A wardrobe should feel like a palette, not a puzzle.”</blockquote>
+              <span class="text-link text-link--arrow">On building a palette <svg aria-hidden="true"><use href="#i-arrow"></use></svg></span>
+            </article>
+            <article class="journal-card journal-card--sage">
+              <span class="journal-kicker">Styling · 5 min read</span>
+              <h3>The case for one bright thing.</h3>
+              <p>Start with the colour you keep reaching for. Then let everything else support it.</p>
+              <span class="text-link text-link--arrow">Read the story <svg aria-hidden="true"><use href="#i-arrow"></use></svg></span>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="newsletter">
+      <div class="container newsletter__inner">
+        <div>
+          <p class="eyebrow eyebrow--light"><span>A note, occasionally</span></p>
+          <h2>Colour in your<br><em>inbox.</em></h2>
+        </div>
+        <div class="newsletter__form-wrap">
+          <p>New shades, outfit formulas and small style notes. No noise, just the good stuff.</p>
+          <form class="newsletter-form" id="newsletterForm" novalidate>
+            <label class="sr-only" for="newsletterEmail">Email address</label>
+            <input type="email" id="newsletterEmail" name="email" placeholder="Your email address" autocomplete="email" required>
+            <button type="submit" class="button button--light">Join the list <svg aria-hidden="true"><use href="#i-arrow"></use></svg></button>
+          </form>
+          <p class="newsletter-message" id="newsletterMessage" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a class="logo logo--footer" href="#top" aria-label="WooBi home"><span class="logo__word">woobi</span><span class="logo__dot" aria-hidden="true">.</span></a>
+          <p>Considered clothing,<br>colour made wearable.</p>
+        </div>
+        <div class="footer-links">
+          <div>
+            <span class="footer-label">Explore</span>
+            <a href="#edit">Shop</a>
+            <a href="#colour-studio">Colour Studio</a>
+            <a href="#outfits">Outfits</a>
+            <a href="#journal">Journal</a>
+          </div>
+          <div>
+            <span class="footer-label">Client care</span>
+            <a href="#footer">Shipping & returns</a>
+            <a href="#footer">Size guide</a>
+            <a href="#footer">Contact</a>
+            <a href="#footer">FAQs</a>
+          </div>
+          <div>
+            <span class="footer-label">Follow</span>
+            <a href="#footer">Instagram</a>
+            <a href="#footer">Pinterest</a>
+            <a href="#footer">TikTok</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom" id="footer">
+        <span>© 2026 WooBi Studio</span>
+        <span class="footer-bottom__note">Made for the considered wardrobe.</span>
+        <span>Privacy · Terms</span>
+      </div>
+      <div class="footer-watermark" aria-hidden="true">woobi</div>
+    </div>
+  </footer>
+
+  <!-- Search -->
+  <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search WooBi" hidden>
+    <div class="search-overlay__inner container">
+      <div class="search-overlay__top">
+        <span class="search-overlay__label">Search WooBi</span>
+        <button class="icon-button" id="searchClose" aria-label="Close search"><svg aria-hidden="true"><use href="#i-close"></use></svg></button>
+      </div>
+      <form class="search-form" id="searchForm" role="search">
+        <svg aria-hidden="true"><use href="#i-search"></use></svg>
+        <input type="search" id="searchInput" placeholder="Try “wrap dress” or “olive”" autocomplete="off" aria-label="Search products">
+      </form>
+      <div class="search-results" id="searchResults" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="drawer drawer--menu" id="menuDrawer" role="dialog" aria-modal="true" aria-label="Site menu" aria-hidden="true">
+    <div class="drawer__head">
+      <span class="drawer__label">Menu</span>
+      <button class="icon-button" id="menuClose" aria-label="Close menu"><svg aria-hidden="true"><use href="#i-close"></use></svg></button>
+    </div>
+    <nav class="menu-nav" aria-label="Mobile">
+      <a href="#edit"><span>01</span>Shop</a>
+      <a href="#colour-studio"><span>02</span>Colour Studio</a>
+      <a href="#outfits"><span>03</span>Outfits</a>
+      <a href="#journal"><span>04</span>Journal</a>
+    </nav>
+    <div class="menu-swatches" id="menuSwatches" aria-hidden="true"></div>
+    <div class="drawer__foot">
+      <p>Colour, considered.<br>Made to mix.</p>
+      <span>© 2026 WooBi</span>
+    </div>
+  </div>
+
+  <!-- Shopping bag -->
+  <div class="drawer drawer--bag" id="bagDrawer" role="dialog" aria-modal="true" aria-label="Shopping bag" aria-hidden="true">
+    <div class="drawer__head">
+      <span class="drawer__label">Your bag <span id="bagDrawerCount">(0)</span></span>
+      <button class="icon-button" id="bagClose" aria-label="Close bag"><svg aria-hidden="true"><use href="#i-close"></use></svg></button>
+    </div>
+    <div class="bag-shipping" id="bagShipping"></div>
+    <div class="bag-items" id="bagItems"></div>
+    <div class="bag-foot">
+      <div class="bag-subtotal"><span>Subtotal</span><span id="bagSubtotal">$0</span></div>
+      <p class="bag-note">Taxes calculated at checkout. Complimentary returns within 30 days.</p>
+      <button class="button button--primary button--full" id="checkoutButton">Continue to checkout <svg aria-hidden="true"><use href="#i-arrow"></use></svg></button>
+    </div>
+  </div>
+
+  <div class="drawer-scrim" id="drawerScrim" aria-hidden="true"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
